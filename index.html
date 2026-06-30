@@ -1,791 +1,504 @@
 <!DOCTYPE html>
-<html lang="de">
-
-
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Arpan Shrestha - Backend Developer &amp; Jr. Data Analyst</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link rel="shortcut icon" type="jpeg/png" href="#">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arpan Shrestha — Backend & RAG Systems Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0d12;
+    --bg-raised: #11151c;
+    --bg-card: #141921;
+    --line: #232a35;
+    --text: #cfd6e0;
+    --text-dim: #7a8494;
+    --text-faint: #4a5260;
+    --accent: #7ee787;
+    --accent-dim: #4f9e58;
+    --accent2: #58a6ff;
+    --warn: #f0a868;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--accent); color:#0a0d12;}
 
-    <style>
-        @font-face {
-            font-family: 'Space Grotesk';
-            font-weight: 400;
-            font-style: normal;
-            src: url(./fonts/SpaceGrotesk-Regular.woff) format('woff'), url(./fonts/SpaceGrotesk-Regular.woff2) format('woff2')
-        }
-        
-        @font-face {
-            font-family: 'Space Grotesk';
-            font-weight: 700;
-            font-style: normal;
-            src: url(./fonts/SpaceGrotesk-Bold.woff) format('woff'), url(./fonts/SpaceGrotesk-Bold.woff2) format('woff2')
-        }
-        
-        *,
-         ::after,
-         ::before {
-            -webkit-box-sizing: border-box;
-            box-sizing: border-box
-        }
-        
-        body,
-        html {
-            width: 100%;
-            height: 100%;
-            overflow: hidden
-        }
-        
-        html {
-            font-size: 16px;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-text-size-adjust: 100%;
-            -ms-text-size-adjust: 100%
-        }
-        
-        body {
-            margin: 0;
-            background-color: #000;
-            color: #fff;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1rem;
-            font-weight: 400;
-            line-height: 1.5;
-            text-align: left
-        }
-        
-        a {
-            background-color: transparent;
-            color: inherit;
-            text-decoration: none;
-            -ms-touch-action: manipulation;
-            touch-action: manipulation
-        }
-        
-        a:active {
-            outline: 0
-        }
-        
-        img {
-            border-style: none
-        }
-        
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        p,
-        ul {
-            margin: 0
-        }
-        
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-weight: 700
-        }
-        
-        ul {
-            padding: 0;
-            list-style: none
-        }
-        
-        .link {
-            position: relative;
-            padding: .25em 0;
-            white-space: nowrap;
-            cursor: none
-        }
-        
-        .link::before {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: currentColor;
-            -webkit-transform-origin: 100% 0;
-            -ms-transform-origin: 100% 0;
-            transform-origin: 100% 0;
-            -webkit-transform: scaleX(0);
-            -ms-transform: scaleX(0);
-            transform: scaleX(0);
-            -webkit-transition: -webkit-transform .25s cubic-bezier(.25, 1, .25, 1);
-            transition: -webkit-transform .25s cubic-bezier(.25, 1, .25, 1);
-            -o-transition: transform .25s cubic-bezier(.25, 1, .25, 1);
-            transition: transform .25s cubic-bezier(.25, 1, .25, 1);
-            transition: transform .25s cubic-bezier(.25, 1, .25, 1), -webkit-transform .25s cubic-bezier(.25, 1, .25, 1)
-        }
-        
-        .link:active::before,
-        .link:hover::before {
-            -webkit-transform-origin: 0 0;
-            -ms-transform-origin: 0 0;
-            transform-origin: 0 0;
-            -webkit-transform: scaleX(1);
-            -ms-transform: scaleX(1);
-            transform: scaleX(1)
-        }
-        
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 100;
-            width: 100%;
-            height: 100%;
-            background-color: #000;
-            -webkit-transition: opacity 2s;
-            -o-transition: opacity 2s;
-            transition: opacity 2s
-        }
-        
-        .site {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1;
-            padding-right: 50%;
-            margin-right: 50%;
-            width: 150%;
-            height: 100%;
-            overflow-x: hidden;
-            overflow-y: visible;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch
-        }
-        
-        .container {
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            -ms-flex-wrap: wrap;
-            flex-wrap: wrap;
-            -ms-flex-line-pack: justify;
-            align-content: space-between;
-            padding: 10vw;
-            min-height: 100%
-        }
-        
-        .bottom,
-        .header {
-            width: 100%
-        }
-        
-        .header {
-            -ms-flex-item-align: start;
-            align-self: flex-start;
-            margin-bottom: 10vw
-        }
-        
-        .header__heading {
-            font-size: 1rem
-        }
-        
-        .header__heading>span {
-            display: block
-        }
-        
-        .header__title {
-            font-weight: 400
-        }
-        
-        .bottom {
-            -ms-flex-item-align: end;
-            align-self: flex-end
-        }
-        
-        .main {
-            margin-bottom: 10vw
-        }
-        
-        .main__description {
-            max-width: 24em;
-            font-size: 1.5rem
-        }
-        
-        .footer__heading {
-            font-size: 1rem
-        }
-        
-        .footer__connect>li {
-            display: inline-block;
-            vertical-align: top;
-            margin-right: .5em
-        }
-        
-        .portrait {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: -1;
-            width: 100%;
-            height: 100%
-        }
-        
-        .portrait__inner {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            height: 105%;
-            -webkit-transform: translateX(-50%);
-            -ms-transform: translateX(-50%);
-            transform: translateX(-50%)
-        }
-        
-        .portrait__canvas {
-            display: block;
-            margin: 5% 0 -5%
-        }
-        
-        .cursor {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            opacity: 0;
-            -webkit-transition: opacity .25s;
-            -o-transition: opacity .25s;
-            transition: opacity .25s;
-            pointer-events: none;
-            mix-blend-mode: exclusion
-        }
-        
-        .cursor__inner {
-            position: absolute;
-            left: -4px;
-            top: -4px;
-            border-radius: 50%;
-            width: 8px;
-            height: 8px;
-            background-color: currentColor;
-            -webkit-transition: -webkit-transform .25s cubic-bezier(.25, 1, .25, 1);
-            transition: -webkit-transform .25s cubic-bezier(.25, 1, .25, 1);
-            -o-transition: transform .25s cubic-bezier(.25, 1, .25, 1);
-            transition: transform .25s cubic-bezier(.25, 1, .25, 1);
-            transition: transform .25s cubic-bezier(.25, 1, .25, 1), -webkit-transform .25s cubic-bezier(.25, 1, .25, 1)
-        }
-        
-        .cursor--small {
-            left: 0;
-            top: 0;
-            width: 0;
-            height: 0
-        }
-        
-        .cursor--big {
-            left: -20px;
-            top: -20px;
-            border: 2px solid currentColor;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            -webkit-transition-delay: 125ms;
-            -o-transition-delay: 125ms;
-            transition-delay: 125ms
-        }
-        
-        .js-animin {
-            opacity: 0;
-            -webkit-transform: translateY(40px) skewY(-3deg);
-            -ms-transform: translateY(40px) skewY(-3deg);
-            transform: translateY(40px) skewY(-3deg);
-            -webkit-transition: opacity 1s, -webkit-transform 1s cubic-bezier(.25, 1, .25, 1);
-            transition: opacity 1s, -webkit-transform 1s cubic-bezier(.25, 1, .25, 1);
-            -o-transition: opacity 1s, transform 1s cubic-bezier(.25, 1, .25, 1);
-            transition: opacity 1s, transform 1s cubic-bezier(.25, 1, .25, 1);
-            transition: opacity 1s, transform 1s cubic-bezier(.25, 1, .25, 1), -webkit-transform 1s cubic-bezier(.25, 1, .25, 1)
-        }
-        
-        @media screen and (min-width:720px) {
-            html {
-                font-size: 18px
-            }
-            .container {
-                padding: 4rem
-            }
-            .header,
-            .main {
-                margin-bottom: 4rem
-            }
-        }
-        
-        @media screen and (min-width:1280px) {
-            html {
-                font-size: 20px
-            }
-        }
-        
-        @media screen and (min-width:1920px) {
-            html {
-                font-size: 24px
-            }
-        }
-        
-        @media screen and (-webkit-min-device-pixel-ratio:2),
-        screen and (-o-min-device-pixel-ratio:2/1),
-        screen and (min-resolution:2dppx) {
-            html {
-                -moz-osx-font-smoothing: grayscale;
-                -webkit-font-smoothing: antialiased
-            }
-        }
-        
-        @media screen and (pointer:fine) {
-            html {
-                cursor: none
-            }
-            .cursor {
-                display: block
-            }
-        }
-    </style>
+  /* scanline texture */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image: repeating-linear-gradient(transparent, transparent 2px, rgba(255,255,255,0.012) 3px);
+    pointer-events:none;
+    z-index:999;
+  }
+
+  a{color:var(--accent2); text-decoration:none;}
+  .mono{font-family:var(--mono);}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(10,13,18,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    padding:14px 32px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .nav-logo{font-family:var(--mono); font-weight:700; font-size:14px; color:var(--accent); letter-spacing:0.5px;}
+  .nav-logo span{color:var(--text-faint);}
+  .nav-links{display:flex; gap:28px; font-family:var(--mono); font-size:13px;}
+  .nav-links a{color:var(--text-dim); transition:color .2s; position:relative;}
+  .nav-links a:hover{color:var(--accent);}
+  .nav-links a::before{content:"./"; color:var(--text-faint);}
+  .nav-toggle{display:none; flex-direction:column; gap:4px; cursor:pointer; background:none; border:none;}
+  .nav-toggle span{width:20px; height:2px; background:var(--text);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:120px 24px 60px;
+    position:relative;
+  }
+  .hero-grid{
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(126,231,135,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(126,231,135,0.035) 1px, transparent 1px);
+    background-size:42px 42px;
+    mask-image: radial-gradient(ellipse 60% 50% at 50% 35%, black 0%, transparent 75%);
+  }
+  .terminal{
+    width:100%; max-width:720px;
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    box-shadow:0 0 0 1px rgba(126,231,135,0.04), 0 20px 60px rgba(0,0,0,0.5);
+    overflow:hidden;
+    position:relative; z-index:1;
+  }
+  .term-bar{
+    display:flex; align-items:center; gap:8px;
+    padding:10px 14px;
+    background:var(--bg-raised);
+    border-bottom:1px solid var(--line);
+  }
+  .term-dot{width:10px; height:10px; border-radius:50%;}
+  .term-bar .term-title{
+    margin-left:8px; font-family:var(--mono); font-size:12px; color:var(--text-faint);
+  }
+  .term-body{
+    padding:22px 22px 26px;
+    font-family:var(--mono);
+    font-size:14px;
+    min-height:240px;
+  }
+  .term-line{color:var(--text-dim); margin-bottom:4px;}
+  .term-line .prompt{color:var(--accent);}
+  .term-line .path{color:var(--accent2);}
+  .term-output{color:var(--text); margin:2px 0 14px; white-space:pre-wrap;}
+  .term-output .hl{color:var(--accent); font-weight:600;}
+  .term-output .hl2{color:var(--accent2);}
+  .cursor-blink{display:inline-block; width:8px; height:16px; background:var(--accent); vertical-align:middle; animation:blink 1s steps(1) infinite;}
+  @keyframes blink{50%{opacity:0;}}
+
+  .hero-sub{
+    margin-top:28px; text-align:center; color:var(--text-dim);
+    font-size:15px; max-width:520px; z-index:1;
+  }
+  .hero-cmds{
+    margin-top:18px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center; z-index:1;
+  }
+  .cmd-chip{
+    font-family:var(--mono); font-size:12px; padding:7px 13px;
+    border:1px solid var(--line); border-radius:6px; color:var(--text-dim);
+    cursor:pointer; transition:all .2s; background:var(--bg-card);
+  }
+  .cmd-chip:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-2px);}
+
+  .scroll-hint{
+    position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+    font-family:var(--mono); font-size:11px; color:var(--text-faint);
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+  }
+  .scroll-hint .bar{width:1px; height:28px; background:linear-gradient(var(--accent-dim), transparent); animation:scrolldown 1.8s infinite;}
+  @keyframes scrolldown{0%{transform:scaleY(0); transform-origin:top;} 50%{transform:scaleY(1); transform-origin:top;} 51%{transform-origin:bottom;} 100%{transform:scaleY(0); transform-origin:bottom;}}
+
+  /* ---------- SECTION SHELL ---------- */
+  section{
+    padding:100px 24px;
+    max-width:980px;
+    margin:0 auto;
+  }
+  .sec-head{
+    display:flex; align-items:baseline; gap:14px; margin-bottom:48px;
+  }
+  .sec-tag{font-family:var(--mono); font-size:13px; color:var(--accent-dim); white-space:nowrap;}
+  .sec-title{font-family:var(--mono); font-size:28px; font-weight:700; color:var(--text);}
+  .sec-rule{flex:1; height:1px; background:var(--line);}
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{display:grid; grid-template-columns:1.3fr 1fr; gap:48px; align-items:start;}
+  .about-text p{color:var(--text-dim); margin-bottom:16px; font-size:15.5px;}
+  .about-text .lead{color:var(--text); font-size:17px;}
+  .stack-panel{
+    background:var(--bg-card); border:1px solid var(--line); border-radius:10px; padding:22px;
+  }
+  .stack-panel h4{font-family:var(--mono); font-size:12px; color:var(--text-faint); text-transform:uppercase; letter-spacing:1px; margin-bottom:14px;}
+  .stack-row{display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px solid var(--line); font-size:13.5px;}
+  .stack-row:last-child{border-bottom:none;}
+  .stack-row .k{color:var(--text-faint); font-family:var(--mono); font-size:12px;}
+  .stack-row .v{color:var(--text); text-align:right;}
+
+  /* ---------- SKILLS ---------- */
+  .skill-cols{display:grid; grid-template-columns:repeat(4,1fr); gap:18px;}
+  .skill-card{
+    background:var(--bg-card); border:1px solid var(--line); border-radius:10px; padding:18px;
+    transition:border-color .2s, transform .2s;
+  }
+  .skill-card:hover{border-color:var(--accent-dim); transform:translateY(-3px);}
+  .skill-card .icon{font-family:var(--mono); color:var(--accent); font-size:12px; margin-bottom:10px;}
+  .skill-card h5{font-size:13.5px; margin-bottom:10px; color:var(--text);}
+  .skill-tags{display:flex; flex-wrap:wrap; gap:6px;}
+  .tag{font-family:var(--mono); font-size:11px; color:var(--text-dim); background:var(--bg-raised); border:1px solid var(--line); padding:3px 8px; border-radius:4px;}
+
+  /* ---------- EXPERIENCE ---------- */
+  .timeline{position:relative; padding-left:28px;}
+  .timeline::before{content:""; position:absolute; left:5px; top:6px; bottom:6px; width:1px; background:var(--line);}
+  .tl-item{position:relative; margin-bottom:36px;}
+  .tl-item::before{content:""; position:absolute; left:-28px; top:5px; width:11px; height:11px; border-radius:50%; background:var(--bg); border:2px solid var(--accent);}
+  .tl-head{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px; margin-bottom:8px;}
+  .tl-role{font-size:17px; font-weight:600; color:var(--text);}
+  .tl-org{color:var(--accent2); font-size:14.5px;}
+  .tl-date{font-family:var(--mono); font-size:12px; color:var(--text-faint);}
+  .tl-list{list-style:none; color:var(--text-dim); font-size:14.5px;}
+  .tl-list li{padding-left:18px; position:relative; margin-bottom:6px;}
+  .tl-list li::before{content:"›"; position:absolute; left:0; color:var(--accent-dim);}
+
+  /* ---------- PROJECTS ---------- */
+  .proj-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  .proj-card{
+    background:var(--bg-card); border:1px solid var(--line); border-radius:10px; padding:24px;
+    display:flex; flex-direction:column; transition:border-color .25s, transform .25s;
+  }
+  .proj-card:hover{border-color:var(--accent-dim); transform:translateY(-4px);}
+  .proj-top{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;}
+  .proj-title{font-size:16.5px; font-weight:600; color:var(--text);}
+  .proj-num{font-family:var(--mono); font-size:12px; color:var(--text-faint);}
+  .proj-desc{color:var(--text-dim); font-size:14px; margin-bottom:16px; flex:1;}
+  .proj-stack{display:flex; flex-wrap:wrap; gap:6px;}
+
+  /* ---------- CERTS ---------- */
+  .cert-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:14px;}
+  .cert-row{
+    display:flex; justify-content:space-between; align-items:center; gap:12px;
+    background:var(--bg-card); border:1px solid var(--line); border-radius:8px;
+    padding:14px 16px; font-size:13.5px;
+  }
+  .cert-row .c-name{color:var(--text); font-weight:500;}
+  .cert-row .c-org{color:var(--text-faint); font-family:var(--mono); font-size:11.5px; margin-top:3px;}
+  .cert-row .c-date{font-family:var(--mono); font-size:11px; color:var(--accent-dim); white-space:nowrap;}
+
+  /* ---------- CONTACT ---------- */
+  .contact-wrap{text-align:center; padding-bottom:60px;}
+  .contact-wrap p{color:var(--text-dim); max-width:480px; margin:0 auto 32px;}
+  .contact-links{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+  .c-link{
+    font-family:var(--mono); font-size:13.5px; padding:11px 20px;
+    border:1px solid var(--line); border-radius:7px; color:var(--text);
+    transition:all .2s; background:var(--bg-card);
+  }
+  .c-link:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-2px);}
+  footer{text-align:center; padding:28px; font-family:var(--mono); font-size:11.5px; color:var(--text-faint); border-top:1px solid var(--line);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 860px){
+    .about-grid, .proj-grid, .cert-grid{grid-template-columns:1fr;}
+    .skill-cols{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width: 600px){
+    .nav-links{display:none;}
+    section{padding:70px 18px;}
+    .sec-title{font-size:22px;}
+    .skill-cols{grid-template-columns:1fr;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
 </head>
-
 <body>
-    <div class="overlay js-overlay"></div>
-    <div class="site js-site">
-        <div class="container js-container">
-            <header class="header js-animin">
-                <h1 class="header__heading"> <span class="header__name">Arpan Shrestha</span> <span class="header__title">Python &amp; Jr. Data Analyst</span> </h1>
-            </header>
-            <div class="bottom">
-                <main class="main js-animin">
-                    <p class="main__description">Greetings! I'm a Backend Developer based in Nepal.</br> Currently, I'm engaged in crafting dynamic Django applications,</br> As a  
-                        <a class="link js-link" href="#" data-text="Freeelancer">Freelancer</a>.</p>
-                </main>
-                <main class="main js-animin">
-                    <p class="main__description"><a class="link js-link" href="#" data-text="Specialization">Specialization</a>.</p>
-                    <ul class="main__description">
-                        <li><a class="link js-link"  data-text="RHEL7">RHEL7</a></li>
-                        <li><a class="link js-link"  data-text="Python & Django">Python & Django</a></li>
-                        <li><a class="link js-link"  data-text="Data Analytics">Data Analytics</a></li>
-                    </ul>
-                </main>
-                <footer class="footer js-animin">
-                    <h2 class="footer__heading">Let's connect</h2>
-                    <ul class="footer__connect">
-                        <li><a class="link js-link" href="mailto:arpanshrestha12@gmail.com" data-text="Email">Email</a></li>
-                        <li><a class="link js-link" href="https://github.com/arpan-shrestha" data-text="Github">Github</a></li>
-                        <li><a class="link js-link" href="https://www.linkedin.com/in/arpan-shrestha-991338188" data-text="LinkedIn">LinkedIn</a></li>
-                        <li><a class="link js-link" href="https://medium.com/@arpanshrestha12" data-text="Medium">Medium</a></li>
-                        <li><a class="link js-link" href="https://www.kaggle.com/deckar" data-text="Kaggle">Kaggle</a></li>
-                    </ul>
-                </footer>
-            </div>
-        </div>
+
+<nav>
+  <div class="nav-logo">arpan<span>@</span>shrestha<span>:~$</span></div>
+  <div class="nav-links">
+    <a href="#about">about</a>
+    <a href="#skills">skills</a>
+    <a href="#experience">experience</a>
+    <a href="#projects">projects</a>
+    <a href="#certs">certs</a>
+    <a href="#contact">contact</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="terminal">
+    <div class="term-bar">
+      <div class="term-dot" style="background:#ff5f57;"></div>
+      <div class="term-dot" style="background:#febc2e;"></div>
+      <div class="term-dot" style="background:#28c840;"></div>
+      <div class="term-title">arpan@portfolio — bash</div>
     </div>
-    <div class="portrait js-portrait">
-        <div class="portrait__inner"> <canvas class="portrait__canvas js-portraitCanvas" data-src="#"></canvas> </div>
+    <div class="term-body" id="termBody">
+      <!-- typed via JS -->
     </div>
-    <div class="cursor cursor--small js-cursorSmall">
-        <div class="cursor__inner js-cursorInner"></div>
+  </div>
+  <div class="hero-cmds">
+    <div class="cmd-chip" data-cmd="whoami">whoami</div>
+    <div class="cmd-chip" data-cmd="skills">skills --list</div>
+    <div class="cmd-chip" data-cmd="projects">cat projects/</div>
+    <div class="cmd-chip" data-cmd="contact">contact --open</div>
+  </div>
+  <p class="hero-sub">Backend developer & data engineer building RAG pipelines, semantic search systems, and production APIs — based in Kathmandu, Nepal.</p>
+  <div class="scroll-hint"><div class="bar"></div>scroll</div>
+</section>
+
+<section id="about">
+  <div class="sec-head"><span class="sec-tag">01</span><span class="sec-title">about</span><div class="sec-rule"></div></div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p class="lead">I'm a backend developer and data engineer who likes turning unstructured information — documents, logs, threat feeds — into systems you can actually query.</p>
+      <p>Most of my recent work sits at the intersection of <strong style="color:var(--text)">retrieval-augmented generation, vector search, and API design</strong>. I build ETL pipelines that ingest messy data, embed it, and serve it back through clean FastAPI endpoints with real session memory — not just demo scripts.</p>
+      <p>I graduated with a BSIT in AI and Machine Learning from Presidential Graduate School, and I split my time between backend engineering and applied data work — including a growing interest in cybersecurity and threat intelligence tooling.</p>
     </div>
-    <div class="cursor cursor--big js-cursorBig"></div>
-    <script>
-        ! function(e, t) {
-            "object" == typeof exports && "object" == typeof module ? module.exports = t() : "function" == typeof define && define.amd ? define([], t) : "object" == typeof exports ? exports.baffle = t() : e.baffle = t()
-        }(this, function() {
-            return function(n) {
-                function i(e) {
-                    if (o[e]) return o[e].exports;
-                    var t = o[e] = {
-                        exports: {},
-                        id: e,
-                        loaded: !1
-                    };
-                    return n[e].call(t.exports, t, t.exports, i), t.loaded = !0, t.exports
-                }
-                var o = {};
-                return i.m = n, i.c = o, i.p = "", i(0)
-            }([function(e, t, n) {
-                "use strict";
-                var i, o = n(2),
-                    r = (i = o) && i.__esModule ? i : {
-                        default: i
-                    };
-                e.exports = r.default
-            }, function(e, t) {
-                "use strict";
-                Object.defineProperty(t, "__esModule", {
-                    value: !0
-                }), t.extend = function(e, t) {
-                    for (var n in t) t.hasOwnProperty(n) && (e[n] = t[n]);
-                    return e
-                }, t.mapString = function(e, t) {
-                    return e.split("").map(t).join("")
-                }, t.sample = function(e) {
-                    return e[Math.floor(Math.random() * e.length)]
-                }, t.each = function(e, t) {
-                    for (var n = 0, i = e.length; n < i; n++) t(e[n], n)
-                }, t.getTruthyIndices = function(e) {
-                    return e.map(function(e, t) {
-                        return !!e && t
-                    }).filter(function(e) {
-                        return !1 !== e
-                    })
-                }, t.getElements = function(t) {
-                    return "string" == typeof t ? [].slice.call(document.querySelectorAll(t)) : [NodeList, HTMLCollection].some(function(e) {
-                        return t instanceof e
-                    }) ? [].slice.call(t) : t.nodeType ? [t] : t
-                }
-            }, function(e, t, n) {
-                "use strict";
-                Object.defineProperty(t, "__esModule", {
-                    value: !0
-                });
-                var i, o = n(1),
-                    r = n(3),
-                    a = (i = r) && i.__esModule ? i : {
-                        default: i
-                    },
-                    l = {
-                        characters: "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz~!@#$%^&*()-+=[]{}|;:,./<>?",
-                        exclude: [" "],
-                        speed: 50
-                    },
-                    s = function() {
-                        function n(e, t) {
-                            (function(e, t) {
-                                if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function")
-                            })(this, n), this.options = (0, o.extend)(Object.create(l), t), this.elements = (0, o.getElements)(e).map(a.default), this.running = !1
-                        }
-                        return n.prototype.once = function() {
-                            var t = this;
-                            return (0, o.each)(this.elements, function(e) {
-                                return e.write(t.options.characters, t.options.exclude)
-                            }), this.running = !0, this
-                        }, n.prototype.start = function() {
-                            var e = this;
-                            return clearInterval(this.interval), (0, o.each)(this.elements, function(e) {
-                                return e.init()
-                            }), this.interval = setInterval(function() {
-                                return e.once()
-                            }, this.options.speed), this.running = !0, this
-                        }, n.prototype.stop = function() {
-                            return clearInterval(this.interval), this.running = !1, this
-                        }, n.prototype.set = function(e) {
-                            return (0, o.extend)(this.options, e), this.running && this.start(), this
-                        }, n.prototype.text = function(t) {
-                            var n = this;
-                            return (0, o.each)(this.elements, function(e) {
-                                e.text(t(e.value)), n.running || e.write()
-                            }), this
-                        }, n.prototype.reveal = function() {
-                            var n = this,
-                                e = arguments.length <= 0 || void 0 === arguments[0] ? 0 : arguments[0],
-                                t = arguments.length <= 1 || void 0 === arguments[1] ? 0 : arguments[1],
-                                i = e / this.options.speed || 1;
-                            return setTimeout(function() {
-                                clearInterval(n.interval), n.running = !0, n.interval = setInterval(function() {
-                                    var e = n.elements.filter(function(e) {
-                                        return !e.bitmap.every(function(e) {
-                                            return !e
-                                        })
-                                    });
-                                    (0, o.each)(e, function(e) {
-                                        var t = Math.ceil(e.value.length / i);
-                                        e.decay(t).write(n.options.characters, n.options.exclude)
-                                    }), e.length || (n.stop(), (0, o.each)(n.elements, function(e) {
-                                        return e.init()
-                                    }))
-                                }, n.options.speed)
-                            }, t), this
-                        }, n
-                    }();
-                t.default = function(e, t) {
-                    return new s(e, t)
-                }
-            }, function(e, t, n) {
-                "use strict";
+    <div class="stack-panel">
+      <h4>// quick facts</h4>
+      <div class="stack-row"><span class="k">LOCATION</span><span class="v">Kirtipur, Kathmandu, NP</span></div>
+      <div class="stack-row"><span class="k">FOCUS</span><span class="v">Backend · RAG · Data Eng</span></div>
+      <div class="stack-row"><span class="k">EDUCATION</span><span class="v">BSIT, AI and MAchine Learning · 2025</span></div>
+      <div class="stack-row"><span class="k">LANGUAGES</span><span class="v">Nepali, English</span></div>
+      <div class="stack-row"><span class="k">STATUS</span><span class="v" style="color:var(--accent)">Open to opportunities</span></div>
+    </div>
+  </div>
+</section>
 
-                function o(e, t) {
-                    if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function")
-                }
-                Object.defineProperty(t, "__esModule", {
-                    value: !0
-                });
-                var r = n(1),
-                    i = function(n) {
-                        function i(e) {
-                            o(this, i);
-                            var t = function(e, t) {
-                                if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-                                return !t || "object" != typeof t && "function" != typeof t ? e : t
-                            }(this, n.call(this, e.textContent));
-                            return t.element = e, t
-                        }
-                        return function(e, t) {
-                            if ("function" != typeof t && null !== t) throw new TypeError("Super expression must either be null or a function, not " + typeof t);
-                            e.prototype = Object.create(t && t.prototype, {
-                                constructor: {
-                                    value: e,
-                                    enumerable: !1,
-                                    writable: !0,
-                                    configurable: !0
-                                }
-                            }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t)
-                        }(i, n), i.prototype.write = function(e, t) {
-                            return this.element.textContent = this.render(e, t), this
-                        }, i
-                    }(function() {
-                        function t(e) {
-                            o(this, t), this.value = e, this.init()
-                        }
-                        return t.prototype.init = function() {
-                            return this.bitmap = this.value.split("").map(function() {
-                                return 1
-                            }), this
-                        }, t.prototype.render = function() {
-                            var n = this,
-                                i = arguments.length <= 0 || void 0 === arguments[0] ? [] : arguments[0],
-                                o = arguments.length <= 1 || void 0 === arguments[1] ? [] : arguments[1];
-                            return i.length ? (0, r.mapString)(this.value, function(e, t) {
-                                return -1 < o.indexOf(e) ? e : n.bitmap[t] ? (0, r.sample)(i) : e
-                            }) : this.value
-                        }, t.prototype.decay = function() {
-                            for (var e = arguments.length <= 0 || void 0 === arguments[0] ? 1 : arguments[0]; e--;) {
-                                var t = (0, r.getTruthyIndices)(this.bitmap);
-                                this.bitmap[(0, r.sample)(t)] = 0
-                            }
-                            return this
-                        }, t.prototype.text = function() {
-                            var e = arguments.length <= 0 || void 0 === arguments[0] ? this.value : arguments[0];
-                            return this.value = e, this.init(), this
-                        }, t
-                    }());
-                t.default = function(e) {
-                    return new i(e)
-                }
-            }])
-        });
-        var global = function() {
-                var e = {
-                        overlay: document.querySelector(".js-overlay"),
-                        site: document.querySelector(".js-site"),
-                        container: document.querySelector(".js-container"),
-                        links: document.querySelectorAll(".js-link"),
-                        animins: document.querySelectorAll(".js-animin"),
-                        portrait: document.querySelector(".js-portrait"),
-                        portraitCanvas: document.querySelector(".js-portraitCanvas"),
-                        cursorSmall: document.querySelector(".js-cursorSmall"),
-                        cursorBig: document.querySelector(".js-cursorBig"),
-                        cursorInner: document.querySelector(".js-cursorInner")
-                    },
-                    t = {
-                        pointerFine: window.matchMedia("(pointer: fine)"),
-                        windowWidth: window.innerWidth,
-                        windowHeight: window.innerHeight,
-                        windowResizeTimer: null,
-                        windowResizeTimeout: 100
-                    };
-                var n = function() {
-                    var e = document.createElement("div");
-                    if (null == e.style.transform) {
-                        var t = ["Webkit", "Moz", "ms"];
-                        for (var n in t)
-                            if (void 0 !== e.style[t[n] + "Transform"]) return t[n] + "Transform"
-                    }
-                    return "transform"
-                }();
-                return {
-                    elements: e,
-                    options: t,
-                    updateWindow: function() {
-                        t.windowWidth = window.innerWidth, t.windowHeight = window.innerHeight
-                    },
-                    lerp: function(e, t, n) {
-                        return (1 - n) * e + n * t
-                    },
-                    randomRange: function(e, t) {
-                        return Math.floor(Math.random() * (t - e + 1)) + e
-                    },
-                    transformPrefix: n
-                }
-            }(),
-            intro = function() {
-                var t = {
-                    overlayDelay: 2e3,
-                    animDelay: 125,
-                    animIndex: 0
-                };
-                return {
-                    init: function() {
-                        global.elements.overlay.style.opacity = 0, setTimeout(function() {
-                            global.elements.animins.forEach(function(e) {
-                                setTimeout(function() {
-                                    e.style.opacity = "1", e.style[global.transformPrefix] = "translateY(0) skewY(0deg)", glitchLinks.init()
-                                }, t.animDelay * t.animIndex), t.animIndex++
-                            }), global.elements.overlay.style.display = "none"
-                        }, t.overlayDelay)
-                    }
-                }
-            }(),
-            cursor = function() {
-                var t = {
-                        x: global.options.windowWidth / 2,
-                        y: global.options.windowHeight / 2,
-                        lazyX: global.options.windowWidth / 2,
-                        lazyY: global.options.windowWidth / 2,
-                        ease: .2
-                    },
-                    e = {
-                        moveX: 0,
-                        moveY: 0,
-                        siteX: 0,
-                        siteY: 0,
-                        siteMulti: 20,
-                        portraitX: 0,
-                        portraitY: 0,
-                        portraitMulti: 10
-                    },
-                    o = {
-                        isVisible: !1,
-                        isVisibleTimer: null,
-                        isVisibleTimeout: 1e3,
-                        isHovering: !1,
-                        isClicked: !1
-                    };
+<section id="skills">
+  <div class="sec-head"><span class="sec-tag">02</span><span class="sec-title">skills</span><div class="sec-rule"></div></div>
+  <div class="skill-cols">
+    <div class="skill-card">
+      <div class="icon">[ backend ]</div>
+      <h5>Languages & Frameworks</h5>
+      <div class="skill-tags">
+        <span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">Django</span><span class="tag">SQL</span><span class="tag">RHEL7</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="icon">[ ai/ml ]</div>
+      <h5>AI & Data Systems</h5>
+      <div class="skill-tags">
+        <span class="tag">RAG</span><span class="tag">LangChain</span><span class="tag">ChromaDB</span><span class="tag">Vector DBs</span><span class="tag">Ollama</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="icon">[ tools ]</div>
+      <h5>Tooling</h5>
+      <div class="skill-tags">
+        <span class="tag">Git</span>
+        <span class="tag">GitHub</span>
+        <span class="tag">Docker</span>
+        <span class="tag">Postman</span>
+        <span class="tag">Jupyter</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="icon">[ human ]</div>
+      <h5>Soft Skills</h5>
+      <div class="skill-tags">
+        <span class="tag">Teamwork</span><span class="tag">Problem-solving</span><span class="tag">Communication</span><span class="tag">Adaptability</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-                function n(e) {
-                    t.x = e.clientX, t.y = e.clientY, o.isVisible = !0, o.isVisible && (null !== o.isVisibleTimer && clearTimeout(o.isVisibleTimer), o.isVisibleTimer = setTimeout(function() {
-                        o.isHovering || (o.isVisible = !1)
-                    }, o.isVisibleTimeout))
-                }
+<section id="experience">
+  <div class="sec-head"><span class="sec-tag">03</span><span class="sec-title">experience</span><div class="sec-rule"></div></div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-head">
+        <div><span class="tl-role">Full-Stack Developer & Data Engineer</span> <span class="tl-org">— Waft Technology</span></div>
+        <span class="tl-date">Aug 2025 – Nov 2025</span>
+      </div>
+      <ul class="tl-list">
+        <li>Developed backend APIs and integrated databases for web applications using Python and FastAPI.</li>
+        <li>Built ETL / data pipelines for CSV processing, document ingestion, and structured data storage.</li>
+        <li>Collaborated with the team to design scalable, maintainable systems and ensure smooth deployment.</li>
+      </ul>
+    </div>
+    <div class="tl-item">
+      <div class="tl-head">
+        <div><span class="tl-role">Quantitative Research Job Simulation</span> <span class="tl-org">— J.P. Morgan Chase & Co. (via Forage)</span></div>
+        <span class="tl-date">Jun 2026</span>
+      </div>
+      <ul class="tl-list">
+        <li>Completed a simulation focused on quantitative research methods.</li>
+        <li>Analyzed a book of loans to estimate a customer's probability of default.</li>
+        <li>Used dynamic programming to convert FICO scores into categorical data to predict defaults.</li>
+      </ul>
+    </div>
+    <div class="tl-item">
+      <div class="tl-head">
+        <div><span class="tl-role">AI in Action Job Simulation</span> <span class="tl-org">— Vista Equity Partners (via Forage)</span></div>
+        <span class="tl-date">Jun 2026</span>
+      </div>
+      <ul class="tl-list">
+        <li>Completed a job simulation involving prompt engineering and GenAI workflow automation for Vista's Portfolio Operations team.</li>
+        <li>Applied Vista's four-part prompt framework (Ask, Context, Examples, Desired Output) to synthesize customer NPS survey feedback into executive-ready insights, improving clarity and relevance of outputs by over 50% through iteration.</li>
+        <li>Designed and tested repeatable GenAI workflows (news aggregation, data reconciliation, qualitative insight summarization) using tools such as ChatGPT and Copilot.</li>
+        <li>Evaluated AI-generated outputs for accuracy, tone, and usefulness; implemented guardrails that reduced error rates and increased stakeholder usability.</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-                function i() {
-                    t.lazyX += (t.x - t.lazyX) * t.ease, t.lazyY += (t.y - t.lazyY) * t.ease, global.elements.cursorSmall.style[global.transformPrefix] = "translate(" + t.x.toFixed(2) + "px, " + t.y.toFixed(2) + "px)", global.elements.cursorBig.style[global.transformPrefix] = "translate(" + t.lazyX.toFixed(2) + "px, " + t.lazyY.toFixed(2) + "px)", o.isVisible ? (global.elements.cursorSmall.style.opacity = "1", o.isHovering ? (global.elements.cursorBig.style.opacity = "0", o.isClicked ? global.elements.cursorInner.style[global.transformPrefix] = "scale(3)" : global.elements.cursorInner.style[global.transformPrefix] = "scale(5)") : (global.elements.cursorInner.style[global.transformPrefix] = "scale(1)", global.elements.cursorBig.style.opacity = "0.25")) : (global.elements.cursorSmall.style.opacity = "0", global.elements.cursorBig.style.opacity = "0"), e.moveX = (t.lazyX - global.options.windowWidth / 2) / (global.options.windowWidth / 2), e.moveY = (t.lazyY - global.options.windowHeight / 2) / (global.options.windowHeight / 2), e.siteX = e.moveX * -e.siteMulti, e.siteY = e.moveY * -e.siteMulti, e.portraitX = e.moveX * -e.portraitMulti, e.portraitY = e.moveY * -e.portraitMulti, global.elements.site.style[global.transformPrefix] = "translate(" + e.siteX.toFixed(2) + "px, " + e.siteY.toFixed(2) + "px)", global.elements.portrait.style[global.transformPrefix] = "translate(" + e.portraitX.toFixed(2) + "px, " + e.portraitY.toFixed(2) + "px)", requestAnimationFrame(i)
-                }
-                return {
-                    init: function() {
-                        document.addEventListener("mousemove", function(e) {
-                            n(e)
-                        }, !1), document.addEventListener("mouseleave", function(e) {
-                            o.isVisible = !1
-                        }, !1), document.addEventListener("mousedown", function(e) {
-                            o.isClicked = !0, n(e)
-                        }, !1), document.addEventListener("mouseup", function(e) {
-                            o.isClicked = !1
-                        }, !1), global.elements.links.forEach(function(t) {
-                            var n = t.getAttribute("data-text"),
-                                i = baffle(t);
-                            t.addEventListener("mouseenter", function(e) {
-                                o.isHovering = !0, i.reveal(1e3)
-                            }, !1), t.addEventListener("mouseleave", function(e) {
-                                o.isHovering = !1, t.textContent = n
-                            }, !1)
-                        }), requestAnimationFrame(i)
-                    }
-                }
-            }(),
-            scroll = function() {
-                var e = {
-                    posCurr: 0,
-                    posLast: 0,
-                    posDiff: 0,
-                    skewAmmount: 0,
-                    skewMulti: 100
-                };
+<section id="projects">
+  <div class="sec-head"><span class="sec-tag">04</span><span class="sec-title">projects</span><div class="sec-rule"></div></div>
+  <div class="proj-grid">
+    <div class="proj-card">
+      <div class="proj-top"><span class="proj-title">Retrieval-Augmented Research Assistant</span><span class="proj-num">01</span></div>
+      <p class="proj-desc">Local RAG pipeline ingesting PDF/text documents, chunked and embedded into a vector database for semantic search. Conversational <span class="mono" style="color:var(--accent2)">/ask</span> endpoint with session memory, powered by Mistral:7B via Ollama.</p>
+      <div class="proj-stack"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">ChromaDB</span><span class="tag">LangChain</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-top"><span class="proj-title">Threat Intel Semantic Search & Graph Explorer</span><span class="proj-num">02</span></div>
+      <p class="proj-desc">Semantic search pipeline for cyber-threat intelligence — retrieves indicators (domains, IPs, emails, phone numbers) and documents, plus their mentions and relationships via a graph traversal API.</p>
+      <div class="proj-stack"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">RAG</span><span class="tag">Vector DB</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-top"><span class="proj-title">GutenRAG — Data-Scrape-to-RAG Pipeline</span><span class="proj-num">03</span></div>
+      <p class="proj-desc">End-to-end lakehouse system on public Project Gutenberg books, implementing a Bronze-Silver-Gold ETL flow with embeddings via Ollama (Mistral), served through a FastAPI endpoint.</p>
+      <div class="proj-stack"><span class="tag">Python</span><span class="tag">BeautifulSoup</span><span class="tag">VectorDB</span><span class="tag">RAG</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-top"><span class="proj-title">Bird Detector with Cloud Storage & Gallery</span><span class="proj-num">04</span></div>
+      <p class="proj-desc">Computer-vision pipeline that captures, detects (YOLOv8), and uploads bird images to Appwrite Storage, with metadata storage and a real-time web gallery.</p>
+      <div class="proj-stack"><span class="tag">Python</span><span class="tag">YOLOv8</span><span class="tag">Appwrite</span><span class="tag">HTML</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-top"><span class="proj-title">University Rank visualizer</span><span class="proj-num">04</span></div>
+      <p class="proj-desc">A lightweight, local data pipeline that extracts the official 2027 QS World University Rankings from an Excel spreadsheet, loads them into a optimized local PostgreSQL database, and streams highly responsive, memory-only interactive Altair visualizations directly to your default web browser.</p>
+      <div class="proj-stack"><span class="tag">Python</span><span class="tag">Altair</span><span class="tag">Gradio</span></div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-top"><span class="proj-title">University Rank visualizer</span><span class="proj-num">04</span></div>
+      <p class="proj-desc">A simple transcription service that converts audio or video files into text using OpenAI’s Whisper model.</p>
+      <div class="proj-stack"><span class="tag">Python</span><span class="tag">Gradio</span><span class="tag">HuggingFace</span><span class="tag">OpenAI</span></div>
+    </div>
+  </div>
+</section>
 
-                function t() {
-                    e.posCurr = global.elements.site.scrollTop, e.posLast = Math.floor(100 * global.lerp(e.posLast, e.posCurr, .1)) / 100, e.posDiff = e.posCurr - e.posLast, e.skewAmmount = e.posDiff / e.skewMulti, global.elements.container.style[global.transformPrefix] = "skewY(" + e.skewAmmount.toFixed(2) + "deg)", requestAnimationFrame(t)
-                }
-                return {
-                    init: function() {
-                        requestAnimationFrame(t)
-                    }
-                }
-            }(),
-            glitchLinks = function() {
-                var o = {
-                    timeMin: 100,
-                    timeMax: 500,
-                    delayMin: 1e3,
-                    delayMax: 5e3
-                };
+<section id="certs">
+  <div class="sec-head"><span class="sec-tag">05</span><span class="sec-title">licenses & certifications</span><div class="sec-rule"></div></div>
+  <div class="cert-grid">
+    <div class="cert-row"><div><div class="c-name">AI Fluency: Framework & Foundations</div><div class="c-org">Anthropic</div></div><span class="c-date">Jun 2026</span></div>
+    <div class="cert-row"><div><div class="c-name">Claude Code 101</div><div class="c-org">Anthropic</div></div><span class="c-date">Jun 2026</span></div>
+    <div class="cert-row"><div><div class="c-name">Claude 101</div><div class="c-org">Anthropic</div></div><span class="c-date">Jun 2026</span></div>
+    <div class="cert-row"><div><div class="c-name">Digital Forensics Essentials (DFE)</div><div class="c-org">EC-Council</div></div><span class="c-date">Jun 2024</span></div>
+    <div class="cert-row"><div><div class="c-name">Ethical Hacking Essentials (EHE)</div><div class="c-org">EC-Council</div></div><span class="c-date">Jun 2024</span></div>
+    <div class="cert-row"><div><div class="c-name">King of the Hill</div><div class="c-org">Presidential Cybersecurity Club</div></div><span class="c-date">Mar 2024</span></div>
+    <div class="cert-row"><div><div class="c-name">Introduction to Cloud 101</div><div class="c-org">AWS Educate</div></div><span class="c-date">Nov 2023</span></div>
+    <div class="cert-row"><div><div class="c-name">Google Data Analytics Professional Certificate</div><div class="c-org">Coursera</div></div><span class="c-date">Jan 2022</span></div>
+    <div class="cert-row"><div><div class="c-name">Django</div><div class="c-org">Udemy</div></div><span class="c-date">May 2020</span></div>
+    <div class="cert-row"><div><div class="c-name">Python & Django</div><div class="c-org">Broadway Infosys</div></div><span class="c-date">Jul 2019</span></div>
+  </div>
+</section>
 
-                function r() {
-                    var e = global.elements.links[Math.floor(Math.random() * global.elements.links.length)],
-                        t = e.getAttribute("data-text"),
-                        n = baffle(e),
-                        i = global.randomRange(o.timeMin, o.timeMax);
-                    n.reveal(i), setTimeout(function() {
-                        e.textContent = t
-                    }, i), setTimeout(function() {
-                        e.textContent = t, requestAnimationFrame(r)
-                    }, global.randomRange(o.delayMin, o.delayMax))
-                }
-                return {
-                    init: function() {
-                        requestAnimationFrame(r)
-                    }
-                }
-            }(),
-            glitchCanvas = function() {
-                var i = {
-                    ctx: global.elements.portraitCanvas.getContext("2d"),
-                    image: null,
-                    imageData: null,
-                    imageSrc: global.elements.portraitCanvas.getAttribute("data-src"),
-                    imageLoaded: !1,
-                    sliceX: 0,
-                    sliceY: 0,
-                    sliceHeight: 0,
-                    minGlitches: 2,
-                    maxGlitches: 8,
-                    delayGlitchMin: 50,
-                    delayGlitchMax: 100,
-                    delayRestartMin: 1e3,
-                    delayRestartMax: 5e3
-                };
+<section id="contact">
+  <div class="sec-head"><span class="sec-tag">06</span><span class="sec-title">contact</span><div class="sec-rule"></div></div>
+  <div class="contact-wrap">
+    <p>Open to backend, data engineering, and applied-AI roles. The fastest way to reach me is email — happy to talk about RAG systems, APIs, or anything in between.</p>
+    <div class="contact-links">
+      <a class="c-link" href="mailto:arpanshrestha12@gmail.com">✉ email</a>
+      <a class="c-link" href="https://github.com/arpan-shrestha" target="_blank" rel="noopener">⌥ github</a>
+      <a class="c-link" href="https://www.linkedin.com/in/arpan-shrestha-991338188" target="_blank" rel="noopener">in linkedin</a>
+      <a class="c-link" href="https://medium.com/@arpanshrestha12" target="_blank" rel="noopener">✎ medium</a>
+      <a class="c-link" href="https://www.kaggle.com/deckar" target="_blank" rel="noopener">k kaggle</a>
+    </div>
+  </div>
+</section>
 
-                function e() {
-                    i.imageLoaded && (i.ctx.drawImage(i.image, 0, 0, global.elements.portraitCanvas.height, global.elements.portraitCanvas.height), setTimeout(function() {
-                        requestAnimationFrame(function() {
-                            ! function t(n) {
-                                n < global.randomRange(i.minGlitches, i.maxGlitches) ? setTimeout(function() {
-                                    n++;
-                                    for (var e = 0; e < global.randomRange(i.minGlitches, i.maxGlitches); e++) o();
-                                    requestAnimationFrame(function() {
-                                        t(n)
-                                    })
-                                }, global.randomRange(i.delayGlitchMin, i.delayGlitchMax)) : e()
-                            }(0)
-                        })
-                    }, global.randomRange(i.delayRestartMin, i.delayRestartMax)))
-                }
+<footer>built by arpan shrestha · kathmandu, nepal · 2026</footer>
 
-                function t() {
-                    global.elements.portraitCanvas.width = global.options.windowHeight, global.elements.portraitCanvas.height = global.options.windowHeight, requestAnimationFrame(e)
-                }
+<script>
+  const lines = [
+    {type:'cmd', text:'whoami'},
+    {type:'out', html:'<span class="hl">Arpan Shrestha</span> — Backend Developer & Data Engineer\nBased in Kathmandu, Nepal'},
+    {type:'cmd', text:'cat focus.txt'},
+    {type:'out', html:'Building <span class="hl2">RAG pipelines</span>, semantic search & production APIs\nwith Python, FastAPI, and vector databases.'},
+    {type:'cmd', text:'./run --intro'},
+    {type:'out', html:'Welcome to my portfolio. Scroll down, or run a command below ↓'},
+  ];
 
-                function o() {
-                    i.sliceX = Math.round(Math.random() * (global.elements.portraitCanvas.height / 30) - 4), i.sliceY = Math.round(Math.random() * global.elements.portraitCanvas.height), i.sliceHeight = Math.round(Math.random() * (global.elements.portraitCanvas.height / 10) + 1), i.imageData = i.ctx.getImageData(0, i.sliceY, global.elements.portraitCanvas.width, i.sliceHeight), i.ctx.clearRect(0, i.sliceY, global.elements.portraitCanvas.width, i.sliceHeight), i.ctx.putImageData(i.imageData, i.sliceX, i.sliceY)
-                }
-                return {
-                    init: function() {
-                        i.image = new Image, i.image.src = i.imageSrc, i.image.addEventListener("load", function() {
-                            i.imageLoaded = !0, t()
-                        })
-                    },
-                    redraw: t
-                }
-            }();
-        window.addEventListener("resize", function() {
-            null !== global.options.windowResizeTimer && clearTimeout(global.options.windowResizeTimer), global.options.windowResizeTimer = setTimeout(function() {
-                global.updateWindow(), glitchCanvas.redraw()
-            }, global.options.windowResizeTimeout)
-        }, !1), window.addEventListener("load", function() {
-            intro.init()
-        }, !1), global.options.pointerFine.matches && cursor.init(), glitchCanvas.init(), scroll.init();
-    </script>
+  const termBody = document.getElementById('termBody');
+  let li = 0, ci = 0;
+
+  function typeNext(){
+    if(li >= lines.length){
+      const cur = document.createElement('div');
+      cur.innerHTML = '<span class="prompt">➜</span> <span class="path">~/portfolio</span> <span class="cursor-blink"></span>';
+      cur.className = 'term-line';
+      termBody.appendChild(cur);
+      return;
+    }
+    const line = lines[li];
+    if(line.type === 'cmd'){
+      const div = document.createElement('div');
+      div.className = 'term-line';
+      div.innerHTML = '<span class="prompt">➜</span> <span class="path">~/portfolio</span> <span class="cmdtext"></span>';
+      termBody.appendChild(div);
+      const target = div.querySelector('.cmdtext');
+      typeChar(target, line.text, () => { li++; setTimeout(typeNext, 250); });
+    } else {
+      const div = document.createElement('div');
+      div.className = 'term-output';
+      div.innerHTML = line.html;
+      termBody.appendChild(div);
+      li++; setTimeout(typeNext, 350);
+    }
+  }
+
+  function typeChar(el, text, done){
+    let i = 0;
+    const iv = setInterval(()=>{
+      el.textContent += text[i];
+      i++;
+      if(i >= text.length){ clearInterval(iv); done(); }
+    }, 38);
+  }
+
+  typeNext();
+
+  // command chips scroll / fake response
+  document.querySelectorAll('.cmd-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const cmd = chip.dataset.cmd;
+      const map = {whoami:'#about', skills:'#skills', projects:'#projects', contact:'#contact'};
+      const target = document.querySelector(map[cmd]);
+      if(target) target.scrollIntoView({behavior:'smooth'});
+    });
+  });
+</script>
+
 </body>
-
 </html>
